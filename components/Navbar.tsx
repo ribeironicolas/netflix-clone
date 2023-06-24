@@ -1,19 +1,24 @@
-import { useCallback, useEffect, useState } from 'react'
-import { BsBell, BsChevronDown, BsSearch } from 'react-icons/bs'
+import React, { useCallback, useEffect, useState } from 'react'
+import {
+  BellIcon,
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+} from '@heroicons/react/24/outline'
 
-import MobileMenu from './MobileMenu'
-import NavbarItem from './NavbarItem'
-import AccountMenu from './AccountMenu'
+import AccountMenu from '@/components/AccountMenu'
+import MobileMenu from '@/components/MobileMenu'
+import NavbarItem from '@/components/NavbarItem'
 
 const TOP_OFFSET = 66
 
 const Navbar = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showAccountMenu, setShowAccountMenu] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showBackground, setShowBackground] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
+      console.log(window.scrollY)
       if (window.scrollY >= TOP_OFFSET) {
         setShowBackground(true)
       } else {
@@ -28,24 +33,24 @@ const Navbar = () => {
     }
   }, [])
 
-  const toggleMobileMenu = useCallback(() => {
-    setShowMobileMenu((current) => !current)
-  }, [])
-
   const toggleAccountMenu = useCallback(() => {
     setShowAccountMenu((current) => !current)
+  }, [])
+
+  const toggleMobileMenu = useCallback(() => {
+    setShowMobileMenu((current) => !current)
   }, [])
 
   return (
     <nav className='w-full fixed z-40'>
       <div
         className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${
-          showBackground ? ' bg-zinc-900 bg-opacity-90' : ''
+          showBackground ? 'bg-zinc-900 bg-opacity-90' : ''
         }`}
       >
-        <img className='h-4 lg:h-7' src='/images/logo.png' alt='Logo' />
+        <img src='/images/logo.png' className='h-4 lg:h-7' alt='Logo' />
         <div className='flex-row ml-8 gap-7 hidden lg:flex'>
-          <NavbarItem label='Home' />
+          <NavbarItem label='Home' active />
           <NavbarItem label='Series' />
           <NavbarItem label='Films' />
           <NavbarItem label='New & Popular' />
@@ -57,8 +62,8 @@ const Navbar = () => {
           className='lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative'
         >
           <p className='text-white text-sm'>Browse</p>
-          <BsChevronDown
-            className={`text-white transition ${
+          <ChevronDownIcon
+            className={`w-4 text-white fill-white transition ${
               showMobileMenu ? 'rotate-180' : 'rotate-0'
             }`}
           />
@@ -66,10 +71,10 @@ const Navbar = () => {
         </div>
         <div className='flex flex-row ml-auto gap-7 items-center'>
           <div className='text-gray-200 hover:text-gray-300 cursor-pointer transition'>
-            <BsSearch />
+            <MagnifyingGlassIcon className='w-6' />
           </div>
           <div className='text-gray-200 hover:text-gray-300 cursor-pointer transition'>
-            <BsBell />
+            <BellIcon className='w-6' />
           </div>
           <div
             onClick={toggleAccountMenu}
@@ -78,8 +83,8 @@ const Navbar = () => {
             <div className='w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden'>
               <img src='/images/default-green.png' alt='' />
             </div>
-            <BsChevronDown
-              className={`text-white transition ${
+            <ChevronDownIcon
+              className={`w-4 text-white fill-white transition ${
                 showAccountMenu ? 'rotate-180' : 'rotate-0'
               }`}
             />
@@ -90,4 +95,5 @@ const Navbar = () => {
     </nav>
   )
 }
+
 export default Navbar
